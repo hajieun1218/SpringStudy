@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+	
+	<!-- 클래스 (관리할 클래스 등록) -> 메모리할당 
+		 클래스 등록<bean> , 패키지 단위 <context:component-scan>
+		 스프링에서 등록해서 사용하는 클래스
+		 	1. DAO, Manager, Model,...
+		 	2. VO(DTO) => 일반 데이터형 (등록하지 않는다)
+	-->
+	
+	<!-- 
+		DI (의존성 주입)
+			1) property DI (Setter DI)
+			2) constructor DI
+			3) method DI
+	 -->
+	<!-- scope="prototype" : 여러개의 클래스를 사용할 경우 (주소가 다름. 싱글턴 X)-->
+	<!-- 메모리를 생성할 때 값을 채워서 생성하는것(set메소드에 값 채우기) : DI -->
+	<!-- init-method : 메모리 생성하면서 자동으로  메소드 호출 (드라이버 연결할 때, 자동로그인, ..) -->
+	<!-- com.sist.spring.Sawon : 매개변수가 없는 생성자 호출 
+		 Sawon sa=new Sawon(); -->
+	<bean id="sa" class="com.sist.spring.Sawon" scope="singleton" init-method="display">
+		<property name="sabun" value="1"></property>
+		<property name="name" value="홍길동"></property>
+		<property name="dept"  value="개발부"></property>
+	</bean>
+	
+	<bean id="sa1" class="com.sist.spring.Sawon" scope="singleton">
+		<property name="sabun"><value>2</value></property>
+		<property name="name"><value>심청이</value></property>
+		<property name="dept"><value>영업부</value></property>
+	</bean>
+	
+	<!-- 개발자 선호도 1위 (가장 많이 사용) -->
+	<bean id="sa2" class="com.sist.spring.Sawon"
+		p:sabun="3"
+		p:name="춘향이"
+		p:dept="기획부"
+	/>
+	
+	
+	
+	<!-- 매개변수가 있는 생성자 호출 
+		 Sawon sa3=new Sawon(1,"박문수","자재부"); -->
+	<!-- index는 생략 가능 -->
+	<bean id="sa3" class="com.sist.spring.Sawon">
+		<constructor-arg value="4" index="0"/>
+		<constructor-arg value="박문수" index="1"/>
+		<constructor-arg value="자재부" index="2"/>
+	</bean>
+	
+	<!-- 개발자 선호도 1위 (가장 많이 사용) -->
+	<bean id="sa4" class="com.sist.spring.Sawon"
+		c:sabun="5"
+		c:name="이순신"
+		c:dept="총무부"
+	/>
+	
+	<bean id="sa5" class="com.sist.spring.Sawon"
+		c:_0="6"
+		c:_1="강감찬"
+		c:_2="교육부"
+	/>
+
+</beans>

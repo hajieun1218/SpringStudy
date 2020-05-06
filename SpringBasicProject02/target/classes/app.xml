@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="s" class="com.sist.spring.Sawon">
+		<property name="sabun">
+			<value>1</value>
+		</property>
+		<property name="name">
+			<value>홍길동</value>
+		</property>
+		<property name="age">
+			<value>30</value>
+		</property>
+		<property name="sex">
+			<value>남자</value>
+		</property>
+	</bean>
+	
+	<bean id="s1" class="com.sist.spring.Sawon">
+		<property name="sabun" value="2"/>
+		<property name="name" value="심청이"/>
+		<property name="age" value="25"/>
+		<property name="sex" value="여자"/>
+	</bean>
+	
+	<bean id="s2" class="com.sist.spring.Sawon"
+		p:sabun="3"
+		p:name="이순신"
+		p:age="27"
+		p:sex="남자"
+	/>
+	
+	<!-- 
+			ApplicationContext
+			
+			Map
+			==========================================================
+			  id명                                         할당된 클래스 주소
+			==========================================================
+			   s    Class.forName("com.sist.spring.SawonContainer")
+			==========================================================
+			   s1   Class.forName("com.sist.spring.SawonContainer")
+			==========================================================
+			   s2   Class.forName("com.sist.spring.SawonContainer")
+			==========================================================
+	 -->
+	<bean id="sc" class="com.sist.spring.SawonContainer">
+		<property name="list">
+			<list>
+				<!-- 객체 주소 => ref => "bean태그의 id명" -->
+				<ref bean="s"/> <!-- list.add(s); -->
+				<ref bean="s1"/>
+				<ref bean="s2"/>
+			</list>
+		</property>
+	</bean>
+</beans>

@@ -1,6 +1,7 @@
 package com.sist.dao;
 import java.util.*;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectKey;
@@ -38,4 +39,25 @@ public interface DataBoardMapper {
 		   +"FROM spring_databoard "
 		   +"WHERE no=#{no}")
 	public DataBoardVO databoardDetailData(int no);
+	
+	// 비밀번호 읽어오기
+	@Select("SELECT pwd FROM spring_databoard "
+		   +"WHERE no=#{no}")
+	public String databoardGetPassword(int no);
+	
+	// 수정하기
+	@Update("UPDATE spring_databoard SET "
+		   +"name=#{name},subject=#{subject},content=#{content} "
+		   +"WHERE no=#{no}")
+	public void databoardUpdate(DataBoardVO vo);
+	
+	// 저장된 파일 가져오기 (파일도 삭제하기위해)
+	@Select("SELECT filename,filecount FROM spring_databoard "
+		   +"WHERE no=#{no}")
+	public DataBoardVO databoardFileInfoData(int no);
+	
+	// 삭제하기
+	@Delete("DELETE FROM spring_databoard "
+		   +"WHERE no=#{no}")
+	public void databoardDelete(int no);
 }

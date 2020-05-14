@@ -10,18 +10,22 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.net.URLEncoder;
 import java.util.*;
 
 import javax.servlet.http.HttpServletResponse;
 
 import com.sist.dao.*;
+import com.sist.manager.RManager;
 
 @Controller
 @RequestMapping("board/")
 public class DataBoardController {
 	@Autowired
 	private DataBoardDAO dao;
+	@Autowired
+	private RManager rm;
 	
 	@RequestMapping("list.do")
 	public String board_list(Model model, String page) {
@@ -110,6 +114,17 @@ public class DataBoardController {
 		
 		model.addAttribute("vo", vo);
 		
+		// 그래프 출력
+		try {
+			// content내용 텍스트 파일에 저장하기
+			FileWriter fw=new FileWriter("c:\\data\\board.txt");
+			fw.write(vo.getContent()+"\r\n");
+			fw.close();
+			
+			// R로 보내기
+			rm.rGraph(no);
+		} catch(Exception ex) {}
+		
 		return "board/detail";
 	}
 	
@@ -138,5 +153,19 @@ public class DataBoardController {
 			bis.close();
 			bos.close();
 		} catch(Exception ex) {}
+	}
+	
+	@RequestMapping("update.do")
+	public String board_update(Model model, int no) {
+		DataBoardVO vo=dao.databoardUpdateData(no);
+		model.addAttribute("vo", vo);
+		return "board/update";
+	}
+	
+	@RequestMapping("delete.do")
+	public String board_delete(Model model, int no) {
+		// no를 보내주기 위해 model 사용
+		model.addAttribute("no",no);
+		return "board/delete";
 	}
 }

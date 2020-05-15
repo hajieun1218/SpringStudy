@@ -17,7 +17,7 @@ public class NewsManager {
 		try {
 			// XML의 최상위 태그를 넘겨줌
 			JAXBContext jc=JAXBContext.newInstance(Rss.class);
-			// java -> xml
+			//  xml -> java : unmarchal
 			Unmarshaller un=jc.createUnmarshaller();
 			URL url=new URL("http://newssearch.naver.com/search.naver?where=rss&query="+URLEncoder.encode(fd,"UTF-8"));
 			Rss rss=(Rss)un.unmarshal(url);

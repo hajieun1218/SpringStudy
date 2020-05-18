@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<!-- 
+	public String main_main(Model model_
+	{
+		return "main";
+	}
+ -->
+
+<tiles-definitions>
+	<!-- return이 main이면 실행 -->
+	<!-- 템플릿이 여러개면 definition 등록 -->
+	<definition name="main" template="/WEB-INF/main/main.jsp">
+		<put-attribute name="header" value="/WEB-INF/main/header.jsp"/>
+		<put-attribute name="nav" value="/WEB-INF/main/nav.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/main/content.jsp"/>
+		<put-attribute name="footer" value="/WEB-INF/main/footer.jsp"/>
+	</definition>
+	
+	<!-- 
+		public String board_list(Model model)
+		{
+			return "board/list";
+		}
+		
+	 -->
+	 <!-- <definition name="board/list" extends="main">
+	 	<put-attribute name="content" value="/WEB-INF/board/list.jsp"/>
+	 </definition> -->
+	 
+	 <!-- 
+		public String notice_list(Model model)
+		{
+			return "notice/list";
+		}
+	 -->
+	 <!-- <definition name="notice/list" extends="main">
+	 	<put-attribute name="content" value="/WEB-INF/notice/list.jsp"/>
+	 </definition> -->
+	 
+	 <!-- 전체 처리  {1}:경로명, {2}:파일명 -->
+	 <definition name="*/*" extends="main">
+	 	<put-attribute name="content" value="/WEB-INF/{1}/{2}.jsp"/>
+	 </definition>
+	 
+	 <definition name="*/*/*" extends="main">
+	 	<put-attribute name="content" value="/WEB-INF/{1}/{2}/{3}.jsp"/>
+	 </definition>
+	 
+</tiles-definitions>

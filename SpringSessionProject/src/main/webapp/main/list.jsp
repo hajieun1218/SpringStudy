@@ -154,7 +154,7 @@ class MusicRow extends React.Component{
 				<td className="text-center">
 					<img src={this.props.music.poster} width="30" height="30"/>
 				</td>
-				<td><a href={"detail.do"}>{this.props.music.title}</a></td>
+				<td><a href={"detail.do?mno="+this.props.music.mno}>{this.props.music.title}</a></td>
 				<td>{this.props.music.singer}</td>
 			</tr>
 		)

@@ -28,5 +28,5 @@ public class MusicVO {
 	private int idcrement;
 	private String state;
 	private String key;
-	private int hit;
+	private int hit; // ´ñ±ÛÀÌ ÃÑ ¸î°³ÀÎÁö
 }

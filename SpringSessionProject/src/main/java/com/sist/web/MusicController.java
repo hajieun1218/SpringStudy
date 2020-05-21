@@ -36,4 +36,20 @@ public class MusicController {
 		System.out.println(result);
 		return result;
 	}
+	
+	@RequestMapping("main/detail_data.do")
+	public String main_detail_data(int mno) {
+		MusicVO vo=dao.musicDetailData(mno);
+		JSONObject obj=new JSONObject(); // {}
+		obj.put("mno", vo.getMno());
+		obj.put("title", vo.getTitle());
+		obj.put("singer", vo.getSinger());
+		obj.put("album", vo.getAlbum());
+		obj.put("state", vo.getState());
+		obj.put("idcrement", vo.getIdcrement());
+		obj.put("poster", vo.getPoster());
+		obj.put("key", vo.getKey()); // 동영상키
+		
+		return obj.toJSONString();
+	}
 }

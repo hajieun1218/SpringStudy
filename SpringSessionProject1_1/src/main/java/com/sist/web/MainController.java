@@ -1,5 +1,7 @@
 package com.sist.web;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.sist.dao.MusicDAO;
 import com.sist.dao.MusicVO;
+import com.sist.dao.ReplyDAO;
+import com.sist.dao.ReplyVO;
 
 @Controller
 public class MainController {
@@ -22,6 +26,8 @@ public class MainController {
 	
 	@Autowired
 	private MusicDAO dao;
+	@Autowired
+	private ReplyDAO rDao;
 
 	// [리스트]
 	@RequestMapping("main/list.do")
@@ -56,6 +62,11 @@ public class MainController {
 		model.addAttribute("json",obj.toJSONString());
 		
 		model.addAttribute("mno",mno);
+		
+		// ================ 댓글 ====================
+		List<ReplyVO> rList=rDao.replyListData(mno);
+		model.addAttribute("rList", rList);
+		
 		return "main/detail";
 	}
 
@@ -119,6 +130,45 @@ public class MainController {
 	{
 		session.invalidate(); // session 해제 
 		return "redirect:list.do";
+	}
+	
+	// =========================== 댓글 ============================
+	
+	// 댓글
+	@RequestMapping("main/reply_insert.do")
+	public String main_reply_insert(ReplyVO vo, HttpSession session) {
+		String id=(String)session.getAttribute("id");
+		vo.setId(id);
+		rDao.replyInsert(vo);
+		return "redirect:detail.do?mno="+vo.getMno();
+	}
+	
+	// 대댓글
+	@RequestMapping("main/reply_reply_insert.do")
+	public String main_reply_reply_insert(int pno, int mno, String msg, HttpSession session) {
+		ReplyVO vo=new ReplyVO();
+		String id=(String)session.getAttribute("id");
+		vo.setMno(mno);
+		vo.setMsg(msg);
+		vo.setId(id);
+		
+		rDao.replyReplyInsert(pno, vo);
+		return "redirect:detail.do?mno="+mno;
+	}
+	
+	// 댓글 수정하기
+	// ReplyVO vo => vo 단위로 받는것 : 코멘드객체
+	@RequestMapping("main/reply_update.do")
+	public String main_reply_update(ReplyVO vo) {
+		rDao.replyUpdate(vo);
+		return "redirect:detail.do?mno="+vo.getMno();
+	}
+	
+	// 댓글 삭제
+	@RequestMapping("main/reply_delete.do")
+	public String reply_delete(int no, int mno) {
+		rDao.replyDelete(no);
+		return "redirect:detail.do?mno="+mno;
 	}
 	
 }

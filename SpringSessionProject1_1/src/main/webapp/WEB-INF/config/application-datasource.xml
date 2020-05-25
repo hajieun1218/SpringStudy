@@ -19,6 +19,12 @@
 		p:password="happy"
 	/>
 	
+	<!-- 트랜잭션 -->
+	<tx:annotation-driven proxy-target-class="false"/>
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+		p:dataSource-ref="ds"
+	/>
+	
 	<!-- SqlSessionFactory -->
 	<bean id="ssf" class="org.mybatis.spring.SqlSessionFactoryBean"
 		p:dataSource-ref="ds"
